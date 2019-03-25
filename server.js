@@ -5,10 +5,12 @@ const bodyParser = require('body-parser')
 
 const port = process.env.PORT || 3000
 
-app.use(bodyParser.urlencoded({ extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')))
+
+app.use('/jobs', require('./api/jobs'))
 
 app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'index.html'))

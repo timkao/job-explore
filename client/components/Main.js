@@ -6,7 +6,9 @@ const MainWrapper = styled.div`
   color: red;
 `;
 
+
 class Main extends Component {
+
   render() {
     return (
       <MainWrapper>
