@@ -1,12 +1,15 @@
-const router = require('express').Router()
-
-router.get('/', (req, res, next) => {
-  console.log('test route')
-  next()
-})
+const router = require('express').Router();
+const axios = require('axios');
 
 router.post('/', (req, res, next) => {
-  console.log('post it')
+  axios.get(`https://jobs.github.com/positions.json?search=${req.body.query}`)
+  .then(response => response.data)
+  .then(jobs => {
+    res.send(jobs)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 });
 
 module.exports = router;

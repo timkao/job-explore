@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { writeSearch } from '../store';
+import { writeSearch, fetchJobs } from '../store';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -35,6 +35,9 @@ const SearchButton = styled.button`
   box-shadow: 0 0 0.1875rem gray;
   font-size: 1.25rem;
   font-weight:bold;
+  :hover {
+    cursor: pointer
+  }
 `;
 
 function SearchForm(props) {
@@ -68,7 +71,9 @@ const mapToState = (state) => {
 const mapToProps = (dispatch, ownProps) => {
   return {
     handleSubmit(ev) {
-      console.log('hit handleSubmit')
+      ev.preventDefault();
+      const thunk = fetchJobs(ownProps.history)
+      dispatch(thunk)
     },
     handleChange(ev) {
       const action = writeSearch(ev.target.value)

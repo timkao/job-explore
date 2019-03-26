@@ -1,6 +1,7 @@
-import { createStore, applyMiddleware } from 'redux'
-import loggerMiddleware from 'redux-logger'
-import thunkMiddleware from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux';
+import loggerMiddleware from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+import axios from 'axios';
 
 // initial State
 const initialState = {
@@ -24,9 +25,16 @@ export const writeSearch = (searchInput) => {
 }
 
 // thunk creator
-export const fetchJobs = () => {
-  return (dispatch) => {
-
+export const fetchJobs = (history) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    return axios.post('/jobs', {query: state.searchInput})
+    .then(res => res.data)
+    .then(jobs => {
+      const action = getJobs(jobs)
+      dispatch(action)
+      history.push('/jobs')
+    });
   }
 }
 
